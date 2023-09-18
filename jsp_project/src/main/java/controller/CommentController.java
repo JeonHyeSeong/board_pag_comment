@@ -3,6 +3,7 @@ package controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -94,6 +96,77 @@ public class CommentController extends HttpServlet {
 				log.info("post error");
 			}
 			break;
+		case "list" :  // list/151
+			try {
+				int bno = Integer.parseInt(pathVar);
+				List<CommentVO> list = csv.getList(bno);
+				log.info("comment > List > "+list);
+				
+				// json 형태로 변환 => 화면에 전송
+				JSONObject[] jsonObjArr = new JSONObject[list.size()];
+				JSONArray jsonList = new JSONArray();
+				for(int i = 0; i<list.size(); i++) {
+					jsonObjArr[i] = new JSONObject(); // key : value
+					jsonObjArr[i].put("cno", list.get(i).getCno());
+					jsonObjArr[i].put("bno", list.get(i).getBno());
+					jsonObjArr[i].put("writer", list.get(i).getWriter());
+					jsonObjArr[i].put("content", list.get(i).getContent());
+					jsonObjArr[i].put("regdate", list.get(i).getRegdate());
+					
+					jsonList.add(jsonObjArr[i]);
+				}
+				String jsonData = jsonList.toJSONString(); // 전송용
+				
+				// 전송 객체에 싣고 전송
+				PrintWriter out = response.getWriter();
+				out.print(jsonData);
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info("comment list error");
+			}
+			break;
+		case "modify" :
+			try {
+				StringBuffer sb = new StringBuffer();
+				String line = "";
+				BufferedReader br = request.getReader();
+				while((line=br.readLine()) != null) {
+					sb.append(line);
+				}
+				log.info(">>>> sb : "+sb.toString());
+				
+				// JSON 형태의 객체로 변환
+				JSONParser parser = new JSONParser();
+				JSONObject jsonobj = (JSONObject)parser.parse(sb.toString());
+				int cno = Integer.parseInt(jsonobj.get("cno").toString());
+				String content = jsonobj.get("content").toString();
+				
+				CommentVO cvo = new CommentVO(cno, content);
+				isOk = csv.modify(cvo);
+				log.info((isOk > 0)? "OK" : "Fail");
+				
+				PrintWriter out = response.getWriter();
+				out.print(isOk);
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info("comment modify error");
+			}
+			break;
+			
+		case "remove" :
+			try {
+				int cno = Integer.parseInt(pathVar);
+				isOk = csv.remove(cno);
+				log.info((isOk > 0)? "OK" : "Fail");
+				
+				PrintWriter out = response.getWriter();
+				out.print(isOk);
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info("comment remove error");
+			}
+			break;
+			
 		}
 	}
 

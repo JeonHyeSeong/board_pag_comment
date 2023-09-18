@@ -139,7 +139,7 @@ public class BoardController extends HttpServlet {
 				int bno = Integer.parseInt(request.getParameter("bno"));
 				isOk = bsv.remove(bno);
 				log.info("remove check "+((isOk > 0)? "OK" : "Fail"));
-				destPage = "list";
+				destPage = "pageList";
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.info("remove error");

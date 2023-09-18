@@ -46,6 +46,8 @@ public class BoardServiceImpl implements Service {
 	@Override
 	public int remove(int bno) {
 		log.info("remove check 2");
+		CommentServiceImpl csv = new CommentServiceImpl();
+		int isOk = csv.deleteAll(bno);
 		return bdao.remove(bno);
 	}
 

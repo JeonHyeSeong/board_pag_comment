@@ -57,13 +57,84 @@ function spreadCommentList(result) { // result 댓글 list
           str += `data-bs-parent="#accordionExample">`;
           str += `<div class="accordion-body">`;
           str += `<input type="text" class="form-control" id="cmtText" value="${result[i].content}">`;
-          str += `<button type="button" data-cno="${result[i].cno}" class="btn btn-outline-warning cmtModBtn">%</button>`;
+          str += `<button type="button" data-cno="${result[i].cno}" data-writer="${result[i].writer}" class="btn btn-outline-warning cmtModBtn">%</button>`;
           str += `<button type="button" data-cno="${result[i].cno}" class="btn btn-outline-danger cmtDelBtn">X</button>`;
           str += `</div> </div> </div>`;
           div.innerHTML += str; // 누적해서 담기
      }
 
 }
+
+// 수정, 삭제 버튼 확인
+document.addEventListener('click',(e) =>{
+	console.log(e.target);
+	if(e.target.classList.contains('cmtModBtn')){
+		let cno = e.target.dataset.cno;
+		console.log(cno);
+		
+		// 수정 구현 (수정할 데이터를 객체로 생성 -> 컨트롤러에서 수정 요청)
+		let div = e.target.closest('div'); // 타겟을 기준으로 가장 가까운 div 찾기
+		let cmtText = div.querySelector('#cmtText').value;
+		let writer = e.target.dataset.writer;
+		
+		// 비동기통신 함수 호출 -> 처리
+		updateCommentFromServer(cno, writer, cmtText).then(result=>{
+			if(result > 0){
+				alert('댓글 수정 성공~!!');
+				printCommentList(bnoVal);
+			}else{
+				alert('댓글 수정 실패~!!');
+			}
+		})
+	}
+	if(e.target.classList.contains('cmtDelBtn')){
+		let cno = e.target.dataset.cno;
+		console.log(cno);
+		
+		// 삭제 구현
+		removeCommentFromServer(cno).then(result=>{
+			if(result > 0){
+				alert('댓글 삭제 성공!!');
+				printCommentList(bnoVal);
+			}else{
+				alert('댓글 삭제 실패!!');
+			}
+		})
+	}
+})
+
+async function updateCommentFromServer(cnoVal, cmtWriter, cmtText){
+	try{
+		const url = '/cmt/modify';
+		const config = {
+			method: 'post',
+			headers: {
+				'Content-Type':'application.json; charset=utf-8'
+			},
+			body:JSON.stringify({cno:cnoVal, writer:cmtWriter, content:cmtText})
+		}
+		
+		const resp = await fetch(url, config);
+		const result = await resp.text();
+		return result;
+	}catch(error){
+		console.log(error);
+	}
+}
+
+async function removeCommentFromServer(cno){
+	try{
+		const resp = await fetch('/cmt/remove/'+cno);
+		const result = await resp.text();
+		return result;
+		
+	}catch(error){
+		console.log(error);
+	}
+}
+
+
+
 
 // 서버에 댓글 리스트를 달라고 요청
 async function getCommentListFromServer(bno) {
