@@ -75,29 +75,29 @@ h1{
 	</div>
 	
 	<div class="tacon">
-	<table class="table table-dark table-striped table">
-		<tr>
-			<th>글번호</th>
-			<th>제목</th>
-			<th>작성자</th>
-			<th>작성시간</th>
-			<th>조회수</th>
-		</tr>
-		<c:forEach items="${list }" var="bvo">
+		<table class="table table-dark table-striped table">
 			<tr>
-				<td><a href="/brd/detail?bno=${bvo.bno }">${bvo.bno }</a></td>
-				<td>
-				<c:if test="${bvo.image_File ne '' && bvo.image_File ne null }">
-					<img src="/_fileUpload/_th_${bvo.image_File }">
-				</c:if>
-				<a href="/brd/detail?bno=${bvo.bno }">${bvo.title }</a>
-				</td>
-				<td>${bvo.writer }</td>
-				<td>${bvo.regdate }</td>
-				<td>${bvo.readcount }</td>
+				<th>글번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성시간</th>
+				<th>조회수</th>
 			</tr>
-		</c:forEach>
-	</table>
+			<c:forEach items="${list }" var="bvo">
+				<tr>
+					<td><a href="/brd/detail?bno=${bvo.bno }">${bvo.bno }</a></td>
+					<td>
+					<c:if test="${bvo.image_File ne '' && bvo.image_File ne null }">
+						<img src="/_fileUpload/_th_${bvo.image_File }">
+					</c:if>
+					<a href="/brd/detail?bno=${bvo.bno }">${bvo.title }</a>
+					</td>
+					<td>${bvo.writer }</td>
+					<td>${bvo.regdate }</td>
+					<td>${bvo.readcount }</td>
+				</tr>
+			</c:forEach>
+		</table>
 	</div>
 	
 	<nav aria-label="Page navigation example" class="nav">

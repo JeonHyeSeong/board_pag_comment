@@ -58,6 +58,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int remove(int bno) {
 		log.info("remove check 2");
+		CommentServiceImpl csv = new CommentServiceImpl();
+		int cnt = csv.commentCount(bno);
+		if(cnt>0) {
+			int isOk = csv.deleteAll(bno);
+		}
 		return bdao.remove(bno);
 	}
 
@@ -72,6 +77,5 @@ public class BoardServiceImpl implements BoardService {
 		log.info("pagelist check");
 		return bdao.pageList(pgvo);
 	}
-
 
 }

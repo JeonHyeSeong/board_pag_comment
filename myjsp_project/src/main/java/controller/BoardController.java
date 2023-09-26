@@ -119,7 +119,16 @@ public class BoardController extends HttpServlet {
 				log.info("list error");
 			}
 			break;
-			
+		case "mylist" :
+			try {
+				List<BoardVO> list = bsv.getList();
+				request.setAttribute("list", list);
+				destPage = "/board/mylist.jsp";
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info("mylist error");
+			}
+			break;
 		case "pageList" :
 			try {
 				log.info("pageList 체크");

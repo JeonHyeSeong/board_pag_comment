@@ -28,6 +28,15 @@
 		border-radius: 20px;
 		margin: 10px;
 	}
+	.com{
+		position: relative;
+		margin: 0 550px;
+	}
+	.aco{
+		width: 800px;
+		position: relative;
+		margin: 0 550px;
+	}
 </style>
 </head>
 <body>
@@ -72,10 +81,43 @@
 	</div>
 	
 	<div class="btncon">
+	<c:if test="${ses.id eq bvo.writer }">
 	<a href="/brd/modify?bno=${bvo.bno }"><button type="button" class="ibtn">수정</button></a>
 	<a href="/brd/remove?bno=${bvo.bno }"><button type="button" class="ibtn">삭제</button></a>
+	</c:if>
 	<a href="brd/pageList"><button type="button" class="ibtn">리스트로...</button></a>
 	</div>
+	<br>
+	<hr>
+	<div class="com">
+		<input type="text" id="cmtWriter" class="form-control input" value="${ses.id }" readonly="readonly"> <br>
+		<input type="text" id="cmtText" class="form-control input" placeholder="댓글 입력.."> <br>
+		<button type="button" id="cmtAddBtn">댓글등록</button> <br>
+	</div>
+	<br>
 	
+	<div class="accordion aco" id="accordionExample">
+	  	<div class="accordion-item">
+		    <h2 class="accordion-header">
+		      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		        cno, writer, reg_date
+		      </button>
+		    </h2>
+		    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+		      <div class="accordion-body">
+		        content
+		      </div>
+		    </div>
+  		</div>
+  	</div>
+  	
+  	<script type="text/javascript">
+  		const bnoVal = `<c:out value="${bvo.bno}" />`;
+  	</script>
+  	<script src="/resource/board_detail.js"></script>
+  	
+  	<script type="text/javascript">
+  		printCommentList(bnoVal);
+  	</script>
 </body>
 </html>

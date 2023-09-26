@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <style type="text/css">
 html {
   height: 100%;
@@ -84,6 +86,8 @@ body {
   margin-top: 40px;
   letter-spacing: 4px
 }
+
+
 
 .login-box button:hover {
   background: #03e9f4;
@@ -177,10 +181,15 @@ body {
 h1{
 	color: white;
 	text-align: center;
-	font-size: 40px
+	font-size: 40px;
+	font-weight: 700;
 }
 .ses{
 	color: white;
+	font-weight: 700;
+	font-size: 25px;
+	width: 650px;
+	text-align: center;
 }
 .lbtn{
 	background-color: black;
@@ -189,11 +198,19 @@ h1{
 	border-radius: 20px;
 	margin-top: 15px;
 }
-.btn{
-	position: absolute;
-	height: 42.6px;
-	line-height: 13px;
+
+.loginBtnContainer{
+	display : flex;
+	justify-content: center;
 }
+
+.loginBtnContainer>.loginBtn1{
+	margin-right: 20px;
+}
+.loginBtn2{
+	margin-left: 20px;
+}
+
 </style>
 </head>
 <body>
@@ -211,7 +228,9 @@ h1{
       				<input type="text" name="pwd">
       				<label>PASSWORD</label>
     			</div>
-	    		<button type="submit">
+    			
+    			<div class="loginBtnContainer">
+	    		<button class="loginBtn1" type="submit">
 			      <span></span>
 			      <span></span>
 			      <span></span>
@@ -219,16 +238,17 @@ h1{
 			      Login
 	    		</button>
 	  			<a href="/mem/join">
-	  			<button type="button" class="btn">
-		  			<span></span>
-				    <span></span>
-				    <span></span>
-				    <span></span>
-	  			회원가입
-	  			</button>
+		  			<button class="loginBtn2" type="button">
+			  			<span></span>
+					    <span></span>
+					    <span></span>
+					    <span></span>
+		  				회원가입
+		  			</button>
 	  			</a>
+	  			</div>
   			</form>
-		</div>
+	  	</div>
 	</c:if>
 	
 	<c:if test="${ses.id ne null }">
@@ -241,6 +261,8 @@ h1{
 				<a href="/mem/logout"><button type="button" class="lbtn">로그아웃</button></a>
 				<a href="/mem/list"><button type="button" class="lbtn">회원리스트보기</button></a>
 				<a href="/mem/modify"><button type="button" class="lbtn">회원정보수정</button></a>
+				<a href="/brd/mylist?writer=${ses.id }"><button type="button" class="lbtn">내가쓴게시글</button></a>
+				<a href="/123456/123"><button type="button" class="lbtn">오류</button></a>
 		</div>
 	</c:if>
 	

@@ -27,6 +27,7 @@ public class PagingHandler {
 		
 	}
 
+
 	public int getStartPage() {
 		return startPage;
 	}
@@ -82,7 +83,6 @@ public class PagingHandler {
 	public void setPgvo(PagingVO pgvo) {
 		this.pgvo = pgvo;
 	}
-	
 	
 	
 

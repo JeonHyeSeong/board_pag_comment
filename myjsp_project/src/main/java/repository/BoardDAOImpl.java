@@ -90,5 +90,4 @@ public class BoardDAOImpl implements BoardDAO {
 		return sql.selectList(NS+"pageList",pgvo);
 	}
 
-
 }

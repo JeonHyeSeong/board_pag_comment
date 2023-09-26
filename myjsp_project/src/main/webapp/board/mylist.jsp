@@ -17,45 +17,49 @@
 		font-size: 40px;
 		font-weight: 700;
 	}
-	.tacon{
+	.tacon, .in{
 		display: flex;
 		justify-content: center;
 	}
-	.btnContainer{
-		display: flex;
-		justify-content: center;
+	.ibtn{
+		background-color: black;
+		color: white;
+		cursor: pointer;
+		border-radius: 20px;
 	}
 </style>
 </head>
 <body>
-	<h1>회원리스트</h1>
-	
+	<h1>내가 쓴 글</h1>
 	<div class="tacon">
 		<table class="table table-dark table-striped table">
 			<tr>
-				<th>ID</th>
-				<th>PWD</th>
-				<th>E-MAIL</th>
-				<th>AGE</th>
-				<th>REG_DATE</th>
-				<th>LAST_LOGIN</th>
+				<th>글번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성시간</th>
+				<th>조회수</th>
 			</tr>
-			<c:forEach items="${list }" var="mvo">
+			<c:forEach items="${list }" var="bvo">
+				<c:if test="${ses.id eq bvo.writer }">
 				<tr>
-					<td>${mvo.id }</td>
-					<td>${mvo.pwd }</td>
-					<td>${mvo.email }</td>
-					<td>${mvo.age }</td>
-					<td>${mvo.regdate }</td>
-					<td>${mvo.lastlogin }</td>
+					<td>${bvo.bno }</td>
+					<td>
+					<c:if test="${bvo.image_File ne '' && bvo.image_File ne null }">
+						<img src="/_fileUpload/_th_${bvo.image_File }">
+					</c:if>
+					${bvo.title }
+					</td>
+					<td>${bvo.writer }</td>
+					<td>${bvo.regdate }</td>
+					<td>${bvo.readcount }</td>
 				</tr>
+				</c:if>
 			</c:forEach>
 		</table>
 	</div>
-	
-	<div class="btnContainer">
-		<a href="/index.jsp"><button type="button">index페이지로</button></a>
+	<div class="in">
+		<a href="/index.jsp"><button type="button" class="ibtn">Index페이지로..</button></a>
 	</div>
-	
 </body>
 </html>
